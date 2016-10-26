@@ -1875,6 +1875,8 @@ static int smbchg_set_high_usb_chg_current(struct smbchg_chip *chip,
 	int i, rc;
 	u8 usb_cur_val;
 
+  pr_smb(PR_MISC, "current_ma=%d\n", current_ma);
+
 	if (current_ma == CURRENT_100_MA) {
 		rc = smbchg_sec_masked_write(chip,
 				chip->usb_chgpth_base + CHGPTH_CFG,
@@ -1920,7 +1922,8 @@ static int smbchg_set_high_usb_chg_current(struct smbchg_chip *chip,
 	}
 
 	usb_cur_val = i & USBIN_INPUT_MASK;
-	rc = smbchg_sec_masked_write(chip, chip->usb_chgpth_base + IL_CFG,
+	pr_smb(PR_MISC, "usb_cur_val=%d\n", usb_cur_val);
+  rc = smbchg_sec_masked_write(chip, chip->usb_chgpth_base + IL_CFG,
 			USBIN_INPUT_MASK, usb_cur_val);
 	if (rc < 0) {
 		dev_err(chip->dev, "cannot write to config c rc = %d\n", rc);
@@ -1946,6 +1949,7 @@ static int smbchg_set_usb_current_max(struct smbchg_chip *chip,
 		int current_ma)
 {
 	int rc = 0;
+  pr_smb(PR_MISC, "current_ma=%d\n", current_ma);
 
 	/*
 	 * if the battery is not present, do not allow the usb ICL to lower in
@@ -2137,6 +2141,8 @@ static int smbchg_set_fastchg_current_raw(struct smbchg_chip *chip,
 {
 	int i, rc;
 	u8 cur_val;
+
+  pr_smb(PR_MISC, "current_ma=%d", current_ma);
 
 	/* the fcc enumerations are the same as the usb currents */
 	i = find_smaller_in_array(chip->tables.usb_ilim_ma_table,
@@ -4029,7 +4035,11 @@ static int qpnp_set_fast_chg_allow(struct smbchg_chip *chip,int enable)
 static bool usb_switched=false;
 static void switch_fast_chg(struct smbchg_chip *chip)
 {
-	if(gpio_get_value(135))//usb-sw-gpio
+
+  // MOD: this breaks the currently connected device
+  return;
+
+  if(gpio_get_value(135))//usb-sw-gpio
 		return;
 	if(!is_usb_present(chip))
 		return;
@@ -4126,7 +4136,8 @@ static void smbchg_external_power_changed(struct power_supply *psy)
 static int smbchg_otg_regulator_enable(struct regulator_dev *rdev)
 {
 	int rc = 0;
-	struct smbchg_chip *chip = rdev_get_drvdata(rdev);
+#if 0
+  struct smbchg_chip *chip = rdev_get_drvdata(rdev);
 
 	chip->otg_retries = 0;
 	chip->chg_otg_enabled = true;
@@ -4146,12 +4157,14 @@ static int smbchg_otg_regulator_enable(struct regulator_dev *rdev)
 	else
 		chip->otg_enable_time = ktime_get();
 	pr_smb(PR_STATUS, "Enabling OTG Boost\n");
-	return rc;
+#endif
+  return rc;
 }
 
 static int smbchg_otg_regulator_disable(struct regulator_dev *rdev)
 {
 	int rc = 0;
+#if 0
 	struct smbchg_chip *chip = rdev_get_drvdata(rdev);
 
 	if (!chip->otg_pinctrl) {
@@ -4166,7 +4179,8 @@ static int smbchg_otg_regulator_disable(struct regulator_dev *rdev)
 	smbchg_otg_pulse_skip_disable(chip, REASON_OTG_ENABLED, false);
 	smbchg_icl_loop_disable_check(chip);
 	pr_smb(PR_STATUS, "Disabling OTG Boost\n");
-	return rc;
+#endif
+  return rc;
 }
 
 static int smbchg_otg_regulator_is_enable(struct regulator_dev *rdev)
@@ -4824,6 +4838,7 @@ static int smbchg_set_optimal_charging_mode(struct smbchg_chip *chip, int type)
 	return 0;
 }
 
+// this change didn't fix anything
 #define DEFAULT_SDP_MA		500
 #define DEFAULT_CDP_MA		1500
 static int smbchg_change_usb_supply_type(struct smbchg_chip *chip,
@@ -9401,7 +9416,7 @@ static void update_heartbeat(struct work_struct *work)
 	if((chip->charger_status == CHARGER_STATUS_GOOD)&&(chip->battery_status == BATTERY_STATUS_GOOD)&&(chip->time_out != true)){
 		qpnp_check_battery_temp(chip);
 	}
-	if(chip->allow_print_log==true || (smbchg_debug_mask&PR_DUMP))
+	if(chip->allow_print_log==true || (smbchg_debug_mask&PR_DUMP) || true)
 	{
 	chip->allow_print_log = false;
 	read_usb_type(chip, &usb_type_name, &usb_supply_type);
