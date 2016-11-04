@@ -483,23 +483,20 @@ static irqreturn_t fusb301_irq_thread(int irq, void *handle)
 				dev_err(&info->i2c->dev, "%s: Attached.SNK after Try.SNK! \n", __func__);
 				info->TriedSink = 0;
 				del_timer(&info->try_sink_timer);
-			
+
         // turn on OTG
         info->otg_present = true;
-      
-      }
+			}
 			#endif
 			if(info->otg_present == true){
-				info->otg_present = false;
+				//info->otg_present = false;
 				dev_err(&info->i2c->dev,"%s : otg_present = (%d)\n",__func__,info->otg_present);
 				power_supply_set_usb_otg(info->usb_psy, info->otg_present ? 1 : 0);
 			}
 			fusb301_read_reg(info->i2c, REG_STAT, &rdata);
 			bc_lvl = (rdata & STAT_BC_LVL) >> STAT_BC_LVL_SHIFT;
-			
       bc_lvl = 1;
-      
-      dev_err(&info->i2c->dev,"%s: BC_LVL %d, 1:500ma 2:1.5A  3:3A!\n", __func__, bc_lvl);
+			dev_err(&info->i2c->dev,"%s: BC_LVL %d, 1:500ma 2:1.5A  3:3A!\n", __func__, bc_lvl);
 			bc_notifier_call_chain(bc_lvl);
 		}
 
