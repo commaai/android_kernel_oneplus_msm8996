@@ -244,7 +244,7 @@ struct dwc3_msm {
 	unsigned int		lpm_to_suspend_delay;
 	bool			init;
 };
-int otg_switch = 1;  // comma: OTG is always on
+int otg_switch = 2;  // comma: OTG is always on
 struct dwc3_msm *opmdwc;
 bool gadget_start = false;/*Anderson-Avoid_warning_about_irq+ */
 
@@ -254,9 +254,12 @@ static  int oem_test_id(int nr, const volatile unsigned long *addr, enum usb_otg
 
 	if (0 == otg_switch) {
 		ret = 1;
+	} else if (2 == otg_switch) {
+    ret = 0;
 	} else {
 		ret = test_bit(nr, addr);
 	}
+
 	printk("oem_test_id ret:%d, otg_switch:%d, otg_state:%d\n", ret, otg_switch, otg_state);
 	return ret;
 }
