@@ -244,7 +244,7 @@ struct dwc3_msm {
 	unsigned int		lpm_to_suspend_delay;
 	bool			init;
 };
-int otg_switch = 1;  // comma: OTG is always enabled
+int otg_switch = 2;  // comma: OTG is always on
 struct dwc3_msm *opmdwc;
 bool gadget_start = false;/*Anderson-Avoid_warning_about_irq+ */
 
@@ -3001,14 +3001,10 @@ static int dwc3_msm_probe(struct platform_device *pdev)
 	schedule_delayed_work(&mdwc->sm_work, 0);
 
 	/* Update initial ID state */
-  printk("updating initial ID state: %d\n", mdwc->pmic_id_irq);
 	if (mdwc->pmic_id_irq) {
 		enable_irq(mdwc->pmic_id_irq);
 		local_irq_save(flags);
 		mdwc->id_state = !!irq_read_line(mdwc->pmic_id_irq);
-    printk("initial ID state %d\n", mdwc->id_state);
-    mdwc->id_state = DWC3_ID_GROUND;
-    printk("hacking initial ID state\n");
 		if (mdwc->id_state == DWC3_ID_GROUND)
 			dwc3_ext_event_notify(mdwc);
 		local_irq_restore(flags);
