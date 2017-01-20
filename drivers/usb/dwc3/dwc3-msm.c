@@ -253,13 +253,15 @@ struct dwc3_msm {
 bool check_P3_ready = false;
 
 bool gadget_start = false;
-int otg_switch = 1; // comma: OTG is always on
+int otg_switch = 2; // comma: OTG is always on
 struct dwc3_msm *opmdwc;
 static  int oem_test_id(int nr, const volatile unsigned long *addr, enum usb_otg_state otg_state)
 {
 	int ret = 0;
 	if (0 == otg_switch) {
 		ret = 1;
+	} else if (2 == otg_switch) {
+		ret = 0;
 	} else {
 		ret = test_bit(nr, addr);
 	}
