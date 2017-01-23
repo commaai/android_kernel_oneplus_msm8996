@@ -4004,10 +4004,10 @@ static bool qpnp_set_fast_chg_allow(struct smbchg_chip *chip, bool enable)
 static bool usb_switched = false;
 static void switch_fast_chg(struct smbchg_chip *chip)
 {
+	bool fastchg_allowed, is_allowed;
+
   // MOD: this breaks the currently connected device
   return;
-
-	bool fastchg_allowed, is_allowed;
 
 	if (gpio_get_value(135)) /* usb-sw-gpio */
 		return;
