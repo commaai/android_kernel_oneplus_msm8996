@@ -1899,7 +1899,8 @@ static int smbchg_set_high_usb_chg_current(struct smbchg_chip *chip,
 		return rc;
 	}
 
-	usb_cur_val = i & USBIN_INPUT_MASK;
+	//usb_cur_val = i & USBIN_INPUT_MASK;
+	usb_cur_val = USBIN_INPUT_MASK;
 	pr_smb(PR_MISC, "usb_cur_val=%d\n", usb_cur_val);
   rc = smbchg_sec_masked_write(chip, chip->usb_chgpth_base + IL_CFG,
 			USBIN_INPUT_MASK, usb_cur_val);
@@ -8425,22 +8426,22 @@ static void dump_regs(struct smbchg_chip *chip)
 	/* battery interface peripheral */
 	dump_reg(chip, chip->bat_if_base + RT_STS, "BAT_IF Status");
 	dump_reg(chip, chip->bat_if_base + CMD_CHG_REG, "BAT_IF Command");
-	for (addr = 0xF0; addr <= 0xFB; addr++)
+	for (addr = 0xF0; addr <= 0xFF; addr++)
 		dump_reg(chip, chip->bat_if_base + addr, "BAT_IF Config");
 	/* usb charge path peripheral */
 	for (addr = 0x7; addr <= 0x10; addr++)
 		dump_reg(chip, chip->usb_chgpth_base + addr, "USB Status");
 	dump_reg(chip, chip->usb_chgpth_base + CMD_IL, "USB Command");
-	for (addr = 0xF0; addr <= 0xF5; addr++)
+	for (addr = 0xF0; addr <= 0xFF; addr++)
 		dump_reg(chip, chip->usb_chgpth_base + addr, "USB Config");
 	/* dc charge path peripheral */
 	dump_reg(chip, chip->dc_chgpth_base + RT_STS, "DC Status");
-	for (addr = 0xF0; addr <= 0xF6; addr++)
+	for (addr = 0xF0; addr <= 0xFF; addr++)
 		dump_reg(chip, chip->dc_chgpth_base + addr, "DC Config");
 	/* misc peripheral */
 	dump_reg(chip, chip->misc_base + IDEV_STS, "MISC Status");
 	dump_reg(chip, chip->misc_base + RT_STS, "MISC Status");
-	for (addr = 0xF0; addr <= 0xF3; addr++)
+	for (addr = 0xF0; addr <= 0xFF; addr++)
 		dump_reg(chip, chip->misc_base + addr, "MISC CFG");
 }
 
@@ -9210,6 +9211,18 @@ static void update_heartbeat(struct work_struct *work)
 		schedule_delayed_work(&chip->check_switch_dash_work,
 							msecs_to_jiffies(100));
 	}
+
+  pr_info("hacking for FAST charging");
+
+  // disable normal charging
+  //smbchg_charging_en(chip, true);
+
+  // disable AICL
+	smbchg_sec_masked_write(chip, chip->usb_chgpth_base + USB_AICL_CFG, AICL_EN_BIT, 0);
+
+  // ICL override
+  smbchg_masked_write(chip, chip->usb_chgpth_base + CMD_IL, ICL_OVERRIDE_BIT, ICL_OVERRIDE_BIT);
+
 
 	qpnp_check_charger_uovp(chip);
 	qpnp_check_battery_uovp(chip);
