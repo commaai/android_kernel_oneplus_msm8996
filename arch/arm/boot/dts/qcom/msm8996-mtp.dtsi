@@ -968,9 +968,11 @@
 	};
 };
 
+#if 0
 &pmi8994_haptics {
 	status = "okay";
 };
+#endif
 
 &flash_led {
 	qcom,follow-otst2-rb-disabled;
