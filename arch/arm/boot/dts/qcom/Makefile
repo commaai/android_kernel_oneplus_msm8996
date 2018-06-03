@@ -174,8 +174,14 @@ dtb-$(CONFIG_ARCH_MSM8909) += msm8909-pm8916-mtp.dtb \
 	msm8909w-wtp.dtb \
 	apq8009w-wtp.dtb
 
+# add leeco support
 dtb-$(CONFIG_MACH_MSM8996_15801) := msm8996-v3.0-pmi8996-mtp_15801.dtb \
-	msm8996pro-pmi8996-mtp_15811.dtb
+	msm8996pro-pmi8996-mtp_15811.dtb \
+	msm8996-v3-pmi8996-le_zl1-evt.dtb \
+	msm8996-v3-pmi8996-le_zl1-dvt1.dtb \
+	msm8996pro-pmi8996-le_zl1-dvt1.dtb \
+	msm8996pro-pmi8996-le_zl1-na.dtb \
+	msm8996pro-pmi8996-le_zl1-pvt.dtb
 
 ifeq ($(CONFIG_ARM64),y)
 always          := $(dtb-y)
