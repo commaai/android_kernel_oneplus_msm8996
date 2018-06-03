@@ -1941,16 +1941,6 @@ static int adreno_getproperty(struct kgsl_device *device,
 			status = 0;
 		}
 		break;
-	case KGSL_PROP_UNKNOWN:
-		{
-			int val = 0;
-			if (copy_to_user(value, &val, sizeof(int))) {
-				status = -EFAULT;
-				break;
-			}
-			status = 0;
-		}
-		break;
 	case KGSL_PROP_UCHE_GMEM_VADDR:
 		{
 			uint64_t gmem_vaddr = 0;
@@ -2745,7 +2735,7 @@ static void adreno_power_stats(struct kgsl_device *device,
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 	struct kgsl_pwrctrl *pwr = &device->pwrctrl;
 	struct adreno_busy_data *busy = &adreno_dev->busy_data;
-	uint64_t adj = 0;
+	uint64_t adj;
 
 	memset(stats, 0, sizeof(*stats));
 

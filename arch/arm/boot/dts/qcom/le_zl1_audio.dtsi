@@ -119,8 +119,8 @@
 	};
 };
 
-/*&i2c_9 {
-	max98927@39 {// max98927 smartpa device
+&i2c_9 {
+	max98927@39 {/* max98927 smartpa device*/
 		compatible = "maxim,max98927L";
 		reg = <0x39>;
 		mono_stereo_mode = <1>;
@@ -142,4 +142,4 @@
 		imon-r-slot = <1>;
 		maxim,98927-reset-gpio = <&tlmm 90 0>;
 	};
-};*/
+};
