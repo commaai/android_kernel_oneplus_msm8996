@@ -4588,3 +4588,13 @@ MODULE_DESCRIPTION("ALSA SoC msm");
 MODULE_LICENSE("GPL v2");
 MODULE_ALIAS("platform:" DRV_NAME);
 MODULE_DEVICE_TABLE(of, msm8996_asoc_machine_of_match);
+
+bool typec_set_cc_state = false;
+
+int wcd_mbhc_plug_detect(void) { return 0; } 
+EXPORT_SYMBOL(wcd_mbhc_plug_detect)
+
+void usb_audio_if_letv(bool *letv, int *pid) {
+}
+EXPORT_SYMBOL(usb_audio_if_letv);
+
