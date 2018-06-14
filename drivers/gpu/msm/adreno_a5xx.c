@@ -2577,7 +2577,7 @@ static int a5xx_microcode_load(struct adreno_device *adreno_dev,
 	/* Load the zap shader firmware through PIL if its available */
 	if (adreno_dev->gpucore->zap_name && !zap_ucode_loaded) {
 #ifdef CONFIG_MACH_MSM8996_15801
-		if (false && socinfo_get_id() == 305) /* MSM8996pro */
+		if (socinfo_get_id() == 305) /* MSM8996pro */
 			ptr = subsystem_get("a530_zap-pro");
 		else
 			ptr = subsystem_get(adreno_dev->gpucore->zap_name);
