@@ -6944,6 +6944,8 @@ static struct platform_driver msm_dai_q6_tdm_driver = {
 static int __init msm_dai_q6_init(void)
 {
 	int rc;
+  rc = 0;
+  goto fail;
 
 	rc = platform_driver_register(&msm_auxpcm_dev_driver);
 	if (rc) {
