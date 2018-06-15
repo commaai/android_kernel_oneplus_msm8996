@@ -26,6 +26,11 @@ fw-shipped- += acenic/tg1.bin
 else
 acenic-objs := acenic/tg1.bin acenic/tg2.bin
 endif
+fw-shipped-$(CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE_V26) += synaptics/startup_fw_update_X2-02-01.img \
+            synaptics/startup_fw_update_X2-03-02.img \
+            synaptics/startup_fw_update_X2-05-01.img \
+            synaptics/startup_fw_update_ZL1-0A-01.img \
+            synaptics/startup_fw_update_ZL1-03-01.img
 fw-shipped-$(CONFIG_ACENIC) += $(acenic-objs)
 fw-shipped-$(CONFIG_ADAPTEC_STARFIRE) += adaptec/starfire_rx.bin \
 					 adaptec/starfire_tx.bin
