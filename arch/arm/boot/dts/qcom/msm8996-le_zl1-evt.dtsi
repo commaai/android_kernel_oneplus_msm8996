@@ -10,7 +10,7 @@
  * GNU General Public License for more details.
  */
 
-#include "msm8996-mtp.dtsi"
+#include "msm8996-mtp-le_zl1.dtsi"
 #include "msm8996-pinctrl-le_zl1.dtsi"
 #include "zs-goodix-fp.dtsi"
 #include "dsi-panel-ft8716-1080p-video.dtsi"
