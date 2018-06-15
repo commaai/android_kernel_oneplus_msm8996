@@ -2580,7 +2580,8 @@ static int a5xx_microcode_load(struct adreno_device *adreno_dev,
 		if (socinfo_get_id() == 305) /* MSM8996pro */
 			ptr = subsystem_get("a530_zap-pro");
 		else
-			ptr = subsystem_get(adreno_dev->gpucore->zap_name);
+			ptr = subsystem_get("a530_zap-noob");
+			//ptr = subsystem_get(adreno_dev->gpucore->zap_name);
 #else
 		ptr = subsystem_get(adreno_dev->gpucore->zap_name);
 #endif
