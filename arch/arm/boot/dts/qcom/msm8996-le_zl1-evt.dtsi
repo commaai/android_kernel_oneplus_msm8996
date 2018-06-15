@@ -152,14 +152,13 @@
 };
 */
 
-/*&msm_imem {
+&msm_imem {
         msm-imem-crash@1c {
         compatible = "qcom,msm-imem-crash-magic";
         reg = <0x1c 4>;
         };
 
-};*/
-
+};
 /*
 &dsi_dual_sharp_cmd {
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
