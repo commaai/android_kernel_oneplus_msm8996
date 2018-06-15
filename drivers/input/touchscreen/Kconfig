@@ -1128,4 +1128,25 @@ config TOUCHSCREEN_SYNAPTICS_S3320_I2C_RMI
 	depends on I2C
 	help
 	  This enables support for Synaptics s1302 RMI over I2C based touch key.
+
+config TOUCHSCREEN_FTS
+  bool "focaltech touchpanel"
+  depends on I2C
+  help
+    Say Y here if you have a Focaltech touchscreen.
+
+    If unsure, say N.
+
+config LETVS_CLASS
+       bool "letv class  for Mediatek package"
+       default n
+       help 
+         Say Y here if you have letv class.
+
+         If unsure, say N.
+
+         To compile this dirver as a module, choose M here: the
+				 module will be called.
 endif
+
+
