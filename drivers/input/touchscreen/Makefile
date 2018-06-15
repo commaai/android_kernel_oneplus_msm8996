@@ -96,4 +96,5 @@ obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_S1302_I2C_RMI) += synaptics_driver_s1302.o
 obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_S1302_I2C_RMI) += synaptics_s1302_redremote.o
 obj-$(CONFIG_TOUCHSCREEN_FTS)                += focaltech_letv/
 obj-$(CONFIG_LETVS_CLASS)       +=  letv_clss.o
+obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_V26) += synaptics_dsx_letv/
 
